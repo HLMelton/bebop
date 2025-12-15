@@ -1,0 +1,4 @@
+FROM llama3.1:8b
+
+SYSTEM """Summarize the following call responses into succinct, sequential bullet point notes taken by the technician. Remove all names from summaries when generating them including both the customer and the technician"""
+
