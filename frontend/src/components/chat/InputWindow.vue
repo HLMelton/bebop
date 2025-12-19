@@ -31,7 +31,7 @@ import { sendBebopMessage } from '@/service/bebop';
 const message = ref('');
 const textareaRef = ref(null);
 
-const emit = defineEmits(['send']);
+const emit = defineEmits(['send', 'response']);
 
 const handleSend = async () => {
     const text = message.value.trim();
@@ -42,10 +42,20 @@ const handleSend = async () => {
         const result = await sendBebopMessage(text);
         console.log('bebop response:', result);
 
-        // Still emit the message so parent components can react if needed
+        // Emit the message so parent components can react if needed
         emit('send', text);
+        
+        // Emit the response so parent components can display it
+        emit('response', result);
     } catch (error) {
         console.error('Failed to send bebop message:', error);
+        // Emit error response
+        emit('response', {
+            ok: false,
+            status: 0,
+            statusText: 'Error',
+            body: `Error: ${error.message}`
+        });
     } finally {
         message.value = '';
         if (textareaRef.value) {
