@@ -1,7 +1,16 @@
 <template>
     <div class="flex flex-col gap-4">
         Input
-        <InputWindow @send="handleMessage" @response="handleResponse" />
+        <InputWindow @send="handleMessage" @response="handleResponse" @loading="handleLoading" />
+        
+        <!-- Loading Spinner -->
+        <div v-if="isLoading" class="flex items-center justify-center py-8">
+            <div class="flex flex-col items-center gap-3">
+                <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+                <p class="text-surface-600 dark:text-surface-400">Processing request...</p>
+            </div>
+        </div>
+        
         Output
         <OutputWindow ref="outputWindowRef" />
     </div>
@@ -14,12 +23,18 @@ import InputWindow from '@/components/chat/InputWindow.vue';
 import OutputWindow from '@/components/chat/OutputWindow.vue';
 
 const outputWindowRef = ref(null);
+const isLoading = ref(false);
 
 const handleMessage = (message) => {
     console.log('Message sent:', message);
 };
 
+const handleLoading = (loading) => {
+    isLoading.value = loading;
+};
+
 const handleResponse = (response) => {
+    
     if (!outputWindowRef.value) return;
     
     try {

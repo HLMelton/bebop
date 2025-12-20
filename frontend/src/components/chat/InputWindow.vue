@@ -31,19 +31,22 @@ import { sendBebopMessage } from '@/service/bebop';
 const message = ref('');
 const textareaRef = ref(null);
 
-const emit = defineEmits(['send', 'response']);
+const emit = defineEmits(['send', 'response', 'loading']);
 
 const handleSend = async () => {
     const text = message.value.trim();
     if (!text) return;
 
+    // Emit loading start
+    emit('loading', true);
+    
+    // Emit the message so parent components can react if needed
+    emit('send', text);
+
     try {
         // Call the bebop service with the raw textbox content
         const result = await sendBebopMessage(text);
         console.log('bebop response:', result);
-
-        // Emit the message so parent components can react if needed
-        emit('send', text);
         
         // Emit the response so parent components can display it
         emit('response', result);
@@ -57,6 +60,9 @@ const handleSend = async () => {
             body: `Error: ${error.message}`
         });
     } finally {
+        // Emit loading end
+        emit('loading', false);
+        
         message.value = '';
         if (textareaRef.value) {
             textareaRef.value.focus();
