@@ -22,6 +22,8 @@ const menuModeOptions = ref([
     { label: 'Overlay', value: 'overlay' }
 ]);
 
+const ipAddress = ref(layoutConfig.ipAddress || 'localhost:11434');
+
 const primaryColors = ref([
     { name: 'noir', palette: {} },
     { name: 'emerald', palette: { 50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7', 400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b', 950: '#022c22' } },
@@ -196,6 +198,11 @@ function onPresetChange() {
 function onMenuModeChange() {
     layoutConfig.menuMode = menuMode.value;
 }
+
+function onIpAddressChange() {
+    layoutConfig.ipAddress = ipAddress.value;
+    // TODO: Link with bebop.js service to update IP address in Go backend
+}
 </script>
 
 <template>
@@ -217,31 +224,17 @@ function onMenuModeChange() {
                     ></button>
                 </div>
             </div>
-            <div>
-                <span class="text-sm text-muted-color font-semibold">Surface</span>
-                <div class="pt-2 flex gap-2 flex-wrap justify-between">
-                    <button
-                        v-for="surface of surfaces"
-                        :key="surface.name"
-                        type="button"
-                        :title="surface.name"
-                        @click="updateColors('surface', surface)"
-                        :class="[
-                            'border-none w-5 h-5 rounded-full p-0 cursor-pointer outline-none outline-offset-1',
-                            { 'outline-primary': layoutConfig.surface ? layoutConfig.surface === surface.name : isDarkTheme ? surface.name === 'zinc' : surface.name === 'slate' }
-                        ]"
-                        :style="{ backgroundColor: `${surface.palette['500']}` }"
-                    ></button>
-                </div>
-            </div>
             <div class="flex flex-col gap-2">
-                <span class="text-sm text-muted-color font-semibold">Presets</span>
-                <SelectButton v-model="preset" @change="onPresetChange" :options="presetOptions" :allowEmpty="false" />
+                <span class="text-sm text-muted-color font-semibold">Host Address</span>
+                <InputText 
+                    v-model="ipAddress" 
+                    @blur="onIpAddressChange"
+                    @keydown.enter="onIpAddressChange"
+                    placeholder="localhost:11434"
+                    type="text"
+                />
             </div>
-            <div class="flex flex-col gap-2">
-                <span class="text-sm text-muted-color font-semibold">Menu Mode</span>
-                <SelectButton v-model="menuMode" @change="onMenuModeChange" :options="menuModeOptions" :allowEmpty="false" optionLabel="label" optionValue="value" />
-            </div>
+
         </div>
     </div>
 </template>

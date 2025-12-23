@@ -22,16 +22,16 @@ const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
                     <i :class="['pi', { 'pi-moon': isDarkTheme, 'pi-sun': !isDarkTheme }]"></i>
                 </button>
                 
-                <!-- <div class="relative">
+                <div class="layout-topbar-action relative center-content">
                     <button
                         v-styleclass="{ selector: '@next', enterFromClass: 'hidden', enterActiveClass: 'animate-scalein', leaveToClass: 'hidden', leaveActiveClass: 'animate-fadeout', hideOnOutsideClick: true }"
                         type="button"
-                        class="layout-topbar-action layout-topbar-action-highlight"
+                        class="layout-topbar-action layout-topbar-action-highlight flex items-center justify-center"
                     >
-                        <i class="pi pi-palette"></i>
+                        <i class="pi pi-cog"></i>
                     </button>
                     <AppConfigurator />
-                </div> -->
+                </div>
             </div>
 
             <button
@@ -41,18 +41,14 @@ const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
                 <i class="pi pi-ellipsis-v"></i>
             </button>
 
-            <div class="layout-topbar-menu hidden lg:block">
+            <!-- <div class="layout-topbar-menu hidden lg:block">
                 <div class="layout-topbar-menu-content">
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-comment"></i>
-                        <span>Calendar</span>
-                    </button>
                     <button type="button" class="layout-topbar-action">
                         <i class="pi pi-user"></i>
                         <span>Profile</span>
                     </button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
